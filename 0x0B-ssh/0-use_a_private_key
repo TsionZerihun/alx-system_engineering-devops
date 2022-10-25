@@ -1,4 +1,3 @@
 #!/usr/bin/env ash
 # to connect to server using the private key ~/.ssh/school
-ssh-add ~/.ssh/school
-ssh ubuntu@34.204.76.138
+ssh -i ~/.ssh/school ubuntu@34.204.76.138
