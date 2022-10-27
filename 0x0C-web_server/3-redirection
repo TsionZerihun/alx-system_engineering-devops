@@ -1,27 +1,31 @@
 #!/usr/bin/env bash
-# A Bash script that configures a new Ubuntu machine to respect the requirements:
-# Configure a new Nginx server so that /redirect_me is redirecting to another page
-#+ The redirection must be a “301 Moved Permanently”
+#install ngix and have a file that returns the string "Hello World inside
 
-sudo apt-get -y update
-sudo apt-get -y upgrade
-sudo apt-get -y install nginx
-sudo chown "$USER":"$USER" /var/www/html/index.html
-echo 'Hello World!' > /var/www/html/index.html
+sudo apt-get update
+sudo apt-get install nginx -y
+echo "Hello World!" | sudo tee /usr/share/nginx/html/index.html
 
-SERVER_CONFIG=\
+new_config=\
 "server {
-	listen 80 default_server;
-	listen [::]:80 default_server;
-	root /var/www/html;
-	index index.html index.htm index.nginx-debian.html;
-	server_name _;
-	location / {
-		try_files \$uri \$uri/ =404;
-	}
-	if (\$request_filename ~ redirect_me){
-		rewrite ^ https://sketchfab.com/bluepeno/models permanent;
-	}
-}"
+        listen 80 default_server;
+        listen [::]:80 default_server;
+               root /var/www/html;
+        index index.html index.htm index.nginx-debian.html;
+        server_name _;
+        location / {
+                try_files \$uri \$uri/ =301;
+        }
+        
+        if (\$request_filename ~ redirect_me){
+            rewrite ^ https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;
+        }
+}
+"
 
-sudo service nginx start
+echo "$new_config" > /etc/nginx/sites-available/default
+if [ "$(pgrep nginx)" -le 0 ];
+then
+    service nginx start
+else
+    service nginx restart
+fi;
