@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+# A bash script that installs and configures HAproxy to distribute requests using round robin
+
+sudo apt-get -y update
+sudo apt-get -y upgrade
+sudo apt-get -y install haproxy
+sudo sed -i '11i ENABLED=1' /etc/default/haproxy
+
+HA_PROXY_RR_CONFIG=\
+"
+backend tsi-on.tech-backend
+	balance roundrobin
+	server 30459-web-01 34.204.76.138:80 check
+	server 30459-web-02 52.1.210.10:80 check
+frontend tsi-on.tech-frontend
+	bind *:80
+	mode http
+	default_backend tsi-on.tech-backend
+"
+touch haproxy.cfg
+sudo cp /etc/haproxy/haproxy.cfg haproxy.cfg
+echo -e "$HA_PROXY_RR_CONFIG" >> haproxy.cfg
+sudo mv haproxy.cfg /etc/haproxy/haproxy.cfg
+sudo service haproxy start
