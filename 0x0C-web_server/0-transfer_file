@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 #accpets 4 parameters and transfers a file from client to a server:
+#1The path to the file to be transferred
+#2IP of the server we want to transfer the file to
+#3The username scp connects with
+#4The path to the SSH private key that scp uses
 
 if [ "$#" -lt 3 ]
 then
