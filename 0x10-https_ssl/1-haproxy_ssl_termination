@@ -40,12 +40,13 @@ frontend tsi-on.tech-http-frontend
         default_backend tsi-on.tech-backend
 
 frontend tsi-on.tech-https-frontend
-        bind *:443 ssl crt /etc/ssl/www.tsi-on.tech.pem
+        bind *:443 ssl crt /etc/ssl/private/www.tsi-on.tech.pem
         http-request set-header X-Forwarded-Proto https
         default_backend tsi-on.tech-backend
 
 backend tsi-on.tech-backend
+        redirect scheme https code 301 if !{ ssl_fc }
         balance roundrobin
-        server 35243-web-01 3.235.25.172:80 check
-        server 35243-web-02 54.164.176.89:80 check
+        server 30459-web-01 34.204.76.138:80 check
+        server 30459-web-02 52.1.210.10:80 check
 
