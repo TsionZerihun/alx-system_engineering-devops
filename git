@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+#automate git add process
+#accepts arguments as commit message
+git add .
+git commit -m "$!"
+git push
