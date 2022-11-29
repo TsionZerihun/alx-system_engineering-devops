@@ -33,18 +33,18 @@ defaults
         errorfile 503 /etc/haproxy/errors/503.http
         errorfile 504 /etc/haproxy/errors/504.http
 
-frontend victorilodiuba.tech-http-frontend
+frontend tsi-on.tech-http-frontend
         bind *:80
         http-request set-header X-Forwarded-Proto http
         mode http
-        default_backend victorilodiuba.tech-backend
+        default_backend tsi-on.tech-backend
 
-frontend victorilodiuba.tech-https-frontend
-        bind *:443 ssl crt /etc/ssl/www.victorilodiuba.tech.pem
+frontend tsi-on.tech-https-frontend
+        bind *:443 ssl crt /etc/ssl/www.tsi-on.tech.pem
         http-request set-header X-Forwarded-Proto https
-        default_backend victorilodiuba.tech-backend
+        default_backend tsi-on.tech-backend
 
-backend victorilodiuba.tech-backend
+backend tsi-on.tech-backend
         balance roundrobin
         server 35243-web-01 3.235.25.172:80 check
         server 35243-web-02 54.164.176.89:80 check
